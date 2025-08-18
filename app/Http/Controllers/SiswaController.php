@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Resources\PostResource;
+use Illuminate\Support\Facades\Validator;
 
 class SiswaController extends Controller
 {
@@ -13,7 +15,8 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        return Siswa::with('kelas')->get();
+        $siswa = Siswa::all();
+        return new PostResource(true, 'List Data Siswa', $siswa);
     }
 
     /**
@@ -29,19 +32,34 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string',
-            'kelas_id' => 'required|exists:kelas,id',
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'kelas_id' => 'required'
         ]);
-        return Siswa::create($validated);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        try {
+            $siswa = Siswa::create([
+                'nama' => $request->nama,
+                'kelas_id' => $request->kelas_id
+            ]);
+
+            return new PostResource(true, 'Data Siswa Berhasil Ditambahkan!', $siswa);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
-        //
+        $siswa = Siswa::find($id);
+        return new PostResource(true, 'Detail Data Siswa!', $siswa);
     }
 
     /**
@@ -55,16 +73,28 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
-        //
+        $siswa = Siswa::find($id);
+
+        $siswa->update([
+            'nama'     => $request->nama ? $request->nama :$siswa->nama,
+            'kelas' => $request->kelas_id ? $request->kelas_id: $siswa->kelas_id
+        ]);
+
+        //return response
+        return new PostResource(true, 'Data Siswa Berhasil Diubah!', $siswa);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Siswa $siswa)
+    public function destroy($id)
     {
-        //
+        $siswa = Siswa::find($id);
+        
+        $siswa->delete();
+
+        return new PostResource(true, 'Data Siswa Berhasil Dihapus!', null);
     }
 }
