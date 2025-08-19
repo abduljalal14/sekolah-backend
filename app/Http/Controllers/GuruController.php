@@ -15,7 +15,7 @@ class GuruController extends Controller
      */
     public function index()
     {
-        $guru = Guru::all();
+        $guru = Guru::with('kelas')->latest()->get();
         return new PostResource(true, 'List Data Guru', $guru);
     }
 

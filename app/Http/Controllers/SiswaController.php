@@ -15,7 +15,7 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $siswa = Siswa::all();
+        $siswa = Siswa::with('kelas')->latest()->get();
         return new PostResource(true, 'List Data Siswa', $siswa);
     }
 
