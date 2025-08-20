@@ -79,7 +79,7 @@ class GuruController extends Controller
 
         $guru->update([
             'nama'     => $request->nama ? $request->nama :$guru->nama,
-            'kelas' => $request->kelas_id ? $request->kelas_id: $guru->kelas_id
+            'kelas_id' => $request->kelas_id ? $request->kelas_id: $guru->kelas_id
         ]);
 
         //return response

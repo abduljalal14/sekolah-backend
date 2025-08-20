@@ -79,7 +79,7 @@ class SiswaController extends Controller
 
         $siswa->update([
             'nama'     => $request->nama ? $request->nama :$siswa->nama,
-            'kelas' => $request->kelas_id ? $request->kelas_id: $siswa->kelas_id
+            'kelas_id' => $request->kelas_id ? $request->kelas_id: $siswa->kelas_id
         ]);
 
         //return response
