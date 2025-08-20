@@ -50,3 +50,36 @@ DB_PASSWORD=pass_db
     <p>Akses: <a href="http://127.0.0.1:8000" target="_blank" rel="noopener">http://127.0.0.1:8000</a></p>
   </li>
 </ol>
+
+<h2>Dokumentasi API</h2>
+
+<h3>Authentication</h3>
+<ul>
+  <li><code>POST /api/register</code> &mdash; Register user baru</li>
+  <li><code>POST /api/login</code> &mdash; Login dan mendapatkan token</li>
+  <li><code>POST /api/logout</code> &mdash; Logout (butuh token, Sanctum)</li>
+</ul>
+
+<h3>Resource API (butuh login / Sanctum)</h3>
+<ul>
+  <li><code>apiResource('siswa')</code> → CRUD data siswa
+    <ul>
+      <li>GET /api/siswa</li>
+      <li>POST /api/siswa</li>
+      <li>GET /api/siswa/{id}</li>
+      <li>PUT/PATCH /api/siswa/{id}</li>
+      <li>DELETE /api/siswa/{id}</li>
+    </ul>
+  </li>
+  <li><code>apiResource('kelas')</code> → CRUD data kelas</li>
+  <li><code>apiResource('guru')</code> → CRUD data guru</li>
+</ul>
+
+<h3>Custom Endpoint</h3>
+<ul>
+  <li><code>GET /api/list/siswa-by-kelas</code> → Ambil list siswa berdasarkan kelas</li>
+  <li><code>GET /api/list/guru-by-kelas</code> → Ambil list guru berdasarkan kelas</li>
+  <li><code>GET /api/list/all-combined</code> → Ambil data gabungan siswa &amp; guru</li>
+</ul>
+
+<p><em>Semua endpoint dengan prefix <code>/api/</code> harus dipanggil melalui header Authorization Bearer Token (Sanctum).</em></p>
