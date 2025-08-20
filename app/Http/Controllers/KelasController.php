@@ -33,7 +33,7 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required'
+            'nama' => 'required|unique:kelas,nama'
         ]);
 
         if ($validator->fails()) {
@@ -75,7 +75,7 @@ class KelasController extends Controller
     {
         //define validation rules
         $validator = Validator::make($request->all(), [
-            'nama'     => 'required',
+            'nama'     => 'required|unique:kelas,nama,' . $id,
         ]);
 
         //check if validation fails

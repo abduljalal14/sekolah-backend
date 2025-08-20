@@ -1,61 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1>Setup Project Laravel setelah Clone</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<p>Ikuti langkah-langkah ini untuk menyiapkan environment dan menginstal dependency setelah melakukan <em>clone</em> project Laravel.</p>
 
-## About Laravel
+<h2>Langkah Instalasi</h2>
+<ol>
+  <li>
+    <p><strong>Masuk ke folder project</strong></p>
+    <pre><code>cd sekolah-backend
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Install dependency PHP dengan Composer</strong></p>
+    <pre><code>composer install
+</code></pre>
+    <p><em>Pastikan terdapat file <code>composer.json</code>.</em></p>
+  </li>
+  <li>
+    <p><strong>Salin file environment</strong></p>
+    <pre><code>cp .env.example .env
+</code></pre>
+    <p><em>Windows PowerShell:</em></p>
+    <pre><code>copy .env.example .env
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Generate application key</strong></p>
+    <pre><code>php artisan key:generate
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Konfigurasi database di <code>.env</code></strong></p>
+    <pre><code>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_db
+DB_USERNAME=user_db
+DB_PASSWORD=pass_db
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Jalankan migrasi (opsional, jika tersedia)</strong></p>
+    <pre><code>php artisan migrate
+</code></pre>
+  </li>
+  <li>
+    <p><strong>Jalankan server lokal</strong></p>
+    <pre><code>php artisan serve
+</code></pre>
+    <p>Akses: <a href="http://127.0.0.1:8000" target="_blank" rel="noopener">http://127.0.0.1:8000</a></p>
+  </li>
+</ol>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<h2>Dokumentasi API</h2>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<h3>Authentication</h3>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h4>Register</h4>
+<pre><code>POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
 
-## Learning Laravel
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "password1234",
+}
+</code></pre>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<h5>Response</h5>
+<pre><code>{
+    "data": {
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "updated_at": "2025-08-20T05:02:20.000000Z",
+        "created_at": "2025-08-20T05:02:20.000000Z",
+        "id": 1
+    },
+    "access_token": "1|oR50I704CzIJyA4wvqAWDDwhsVNDSwrTfjOcJQfV34107401",
+    "token_type": "Bearer"
+}
+</code></pre>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<h4>Login</h4>
+<pre><code>POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+{
+  "email": "johndoe@example.com",
+  "password": "password"
+}
+</code></pre>
 
-## Laravel Sponsors
+<h5>Response</h5>
+<pre><code>{
+    "message": "Login success",
+    "access_token": "4|jiSELWVZFkKQkbBS1eG5lEBSHn0VB7m9Cwc1i15Zd2d66407",
+    "token_type": "Bearer"
+}
+</code></pre>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<h4>Logout</h4>
+<pre><code>POST http://127.0.0.1:8000/api/logout
+Authorization: Bearer {token}
+</code></pre>
 
-### Premium Partners
+<h5>Response</h5>
+<pre><code>{
+    "message": "Successfully logged out"
+}
+</code></pre>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+<h3>Resource API (butuh login / Sanctum)</h3>
+<ul>
+  <li><code>apiResource('siswa')</code> → CRUD data siswa
+    <ul>
+      <li>GET /api/siswa</li>
+      <li>POST /api/siswa</li>
+      <li>GET /api/siswa/{id}</li>
+      <li>PUT/PATCH /api/siswa/{id}</li>
+      <li>DELETE /api/siswa/{id}</li>
+    </ul>
+  </li>
+  <li><code>apiResource('kelas')</code> → CRUD data kelas</li>
+  <li><code>apiResource('guru')</code> → CRUD data guru</li>
+</ul>
 
-## Contributing
+<h3>Custom Endpoint</h3>
+<ul>
+  <li><code>GET /api/list/siswa-by-kelas</code> → Ambil list siswa berdasarkan kelas</li>
+  <li><code>GET /api/list/guru-by-kelas</code> → Ambil list guru berdasarkan kelas</li>
+  <li><code>GET /api/list/all-combined</code> → Ambil data gabungan siswa &amp; guru</li>
+</ul>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<p><em>Semua endpoint dengan prefix <code>/api/</code> harus dipanggil melalui header Authorization Bearer Token (Sanctum).</em></p>
