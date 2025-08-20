@@ -54,11 +54,60 @@ DB_PASSWORD=pass_db
 <h2>Dokumentasi API</h2>
 
 <h3>Authentication</h3>
-<ul>
-  <li><code>POST /api/register</code> &mdash; Register user baru</li>
-  <li><code>POST /api/login</code> &mdash; Login dan mendapatkan token</li>
-  <li><code>POST /api/logout</code> &mdash; Logout (butuh token, Sanctum)</li>
-</ul>
+
+<h4>Register</h4>
+<pre><code>POST http://127.0.0.1:8000/api/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "password1234",
+}
+</code></pre>
+
+<h5>Response</h5>
+<pre><code>{
+    "data": {
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "updated_at": "2025-08-20T05:02:20.000000Z",
+        "created_at": "2025-08-20T05:02:20.000000Z",
+        "id": 1
+    },
+    "access_token": "1|oR50I704CzIJyA4wvqAWDDwhsVNDSwrTfjOcJQfV34107401",
+    "token_type": "Bearer"
+}
+</code></pre>
+
+<h4>Login</h4>
+<pre><code>POST http://127.0.0.1:8000/api/login
+Content-Type: application/json
+
+{
+  "email": "johndoe@example.com",
+  "password": "password"
+}
+</code></pre>
+
+<h5>Response</h5>
+<pre><code>{
+    "message": "Login success",
+    "access_token": "4|jiSELWVZFkKQkbBS1eG5lEBSHn0VB7m9Cwc1i15Zd2d66407",
+    "token_type": "Bearer"
+}
+</code></pre>
+
+<h4>Logout</h4>
+<pre><code>POST http://127.0.0.1:8000/api/logout
+Authorization: Bearer {token}
+</code></pre>
+
+<h5>Response</h5>
+<pre><code>{
+    "message": "Successfully logged out"
+}
+</code></pre>
 
 <h3>Resource API (butuh login / Sanctum)</h3>
 <ul>
