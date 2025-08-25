@@ -17,4 +17,8 @@ class Siswa extends Model
     {
         return $this->belongsTo(Kelas::class);
     }
+
+    public function orangtua(){
+        return $this->belongsTo(OrangTua::class);
+    }
 }

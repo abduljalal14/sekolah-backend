@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\OrangTua;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Validator;
 
-class SiswaController extends Controller
+class OrangTuaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $siswa = Siswa::with('kelas')->latest()->get();
-        return new PostResource(true, 'List Data Siswa', $siswa);
+        $ortu = OrangTua::all();
+        return new PostResource(true, 'List Data Orang Tua', $ortu);
     }
 
     /**
@@ -33,9 +34,7 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
-            'kelas_id' => 'required',
-            'ortu_id' => 'required'
+            'nama' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -43,13 +42,11 @@ class SiswaController extends Controller
         }
 
         try {
-            $siswa = Siswa::create([
+            $ortu = OrangTua::create([
                 'nama' => $request->nama,
-                'kelas_id' => $request->kelas_id,
-                'ortu_id' => $request->ortu_id
             ]);
 
-            return new PostResource(true, 'Data Siswa Berhasil Ditambahkan!', $siswa);
+            return new PostResource(true, 'Data Orang Tua Berhasil Ditambahkan!', $ortu);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
         }
@@ -60,14 +57,14 @@ class SiswaController extends Controller
      */
     public function show($id)
     {
-        $siswa = Siswa::find($id);
-        return new PostResource(true, 'Detail Data Siswa!', $siswa);
+        $ortu = OrangTua::find($id);
+        return new PostResource(true, 'Detail Data Orang Tua!', $ortu);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Siswa $siswa)
+    public function edit(Siswa $ortu)
     {
         //
     }
@@ -77,16 +74,14 @@ class SiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $siswa = Siswa::find($id);
+        $ortu = OrangTua::find($id);
 
-        $siswa->update([
-            'nama'     => $request->nama ? $request->nama :$siswa->nama,
-            'kelas_id' => $request->kelas_id ? $request->kelas_id: $siswa->kelas_id,
-            'ortu_id' => $request->ortu_id ? $request->ortu_id: $siswa->ortu_id
+        $ortu->update([
+            'nama'     => $request->nama ? $request->nama :$ortu->nama,
         ]);
 
         //return response
-        return new PostResource(true, 'Data Siswa Berhasil Diubah!', $siswa);
+        return new PostResource(true, 'Data Orang Tua Berhasil Diubah!', $ortu);
     }
 
     /**
@@ -94,10 +89,10 @@ class SiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswa = Siswa::find($id);
+        $ortu = OrangTua::find($id);
         
-        $siswa->delete();
+        $ortu->delete();
 
-        return new PostResource(true, 'Data Siswa Berhasil Dihapus!', null);
+        return new PostResource(true, 'Data Orang Tua Berhasil Dihapus!', null);
     }
 }
